@@ -726,10 +726,6 @@ export default function App() {
   const [reports, setReports] = useState([]);
   
 
-  useEffect(() => {
-    if (token) fetchReports();
-  }, [token, fetchReports]);
-
   const fetchReports = async () => {
     try {
       const res = await fetch(`${API}/reports`, {
@@ -741,6 +737,10 @@ export default function App() {
       console.error(err);
     }
   };
+
+  useEffect(() => {
+    if (token) fetchReports();
+  }, [token]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleStatusChange = (id, status, note, radius) => {
     setReports(prev => prev.map(r => {
