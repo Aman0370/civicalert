@@ -3,67 +3,7 @@ import { useState, useEffect } from "react";
 const API = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 // ─── Fake DB ────────────────────────────────────────────────────────────────
-const INITIAL_REPORTS = [
-  {
-    id: "R-1001",
-    title: "Suspicious vehicle parked near school",
-    category: "Suspicious Activity",
-    description: "A dark van has been parked outside Springfield Elementary for 3 days with no movement.",
-    location: "12th Ave & Oak St, Springfield",
-    lat: 28.61,
-    lng: 77.21,
-    radius: 1.5,
-    media: "image",
-    status: "verified",
-    submittedBy: "citizen1",
-    submittedAt: "2026-05-21T09:30:00",
-    verifiedAt: "2026-05-21T11:00:00",
-    alertIssued: true,
-    updates: [
-      { time: "2026-05-21T09:30:00", text: "Report submitted by citizen." },
-      { time: "2026-05-21T11:00:00", text: "Verified by authorities. Alert issued to 1.5km radius." },
-      { time: "2026-05-22T14:00:00", text: "Vehicle identified. Investigation ongoing." },
-    ],
-  },
-  {
-    id: "R-1002",
-    title: "Vandalism at City Park",
-    category: "Vandalism",
-    description: "Graffiti and broken benches near the fountain area.",
-    location: "City Central Park, Sector 4",
-    lat: 28.63,
-    lng: 77.22,
-    radius: 0.5,
-    media: "video",
-    status: "investigating",
-    submittedBy: "citizen1",
-    submittedAt: "2026-05-22T16:45:00",
-    verifiedAt: "2026-05-22T18:00:00",
-    alertIssued: true,
-    updates: [
-      { time: "2026-05-22T16:45:00", text: "Report submitted by citizen." },
-      { time: "2026-05-22T18:00:00", text: "Verified. Local patrol dispatched." },
-    ],
-  },
-  {
-    id: "R-1003",
-    title: "Street fight outside metro station",
-    category: "Violence",
-    description: "Group of 5-6 individuals fighting near Exit 2 of the metro.",
-    location: "Central Metro, Exit 2",
-    lat: 28.59,
-    lng: 77.20,
-    radius: 1.0,
-    media: "video",
-    status: "pending",
-    submittedBy: "citizen2",
-    submittedAt: "2026-05-23T08:10:00",
-    alertIssued: false,
-    updates: [
-      { time: "2026-05-23T08:10:00", text: "Report submitted. Awaiting authority review." },
-    ],
-  },
-];
+
 
 const CATEGORIES = ["Suspicious Activity", "Vandalism", "Violence", "Theft", "Drug Activity", "Traffic Incident", "Other"];
 
@@ -75,11 +15,6 @@ const STATUS_CONFIG = {
   rejected: { label: "Rejected", color: "#ef4444", bg: "#fee2e2", icon: "❌" },
 };
 
-const USERS = {
-  citizen1: { name: "Aman Sharma", role: "citizen", id: "CIT-8821", location: "Springfield", avatar: "AS" },
-  citizen2: { name: "Priya Nair", role: "citizen", id: "CIT-4432", location: "Central Zone", avatar: "PN" },
-  auth1: { name: "Inspector Verma", role: "authority", badge: "IPS-2201", dept: "City Police HQ", avatar: "IV" },
-};
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 function fmtDate(iso) {
@@ -789,11 +724,11 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [token, setToken] = useState(null);
   const [reports, setReports] = useState([]);
-  const [loading, setLoading] = useState(false);
+  
 
   useEffect(() => {
     if (token) fetchReports();
-  }, [token]);
+  }, [token, fetchReports]);
 
   const fetchReports = async () => {
     try {
